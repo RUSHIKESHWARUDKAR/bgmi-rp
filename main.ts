@@ -18,8 +18,11 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         . . . . . . . . . . . . . . . . 
         `, mySprite, 200, 0)
 })
+sprites.onOverlap(SpriteKind.Player, SpriteKind.Player, function (sprite, otherSprite) {
+	
+})
 sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, otherSprite) {
-    sprite.destroy()
+    sprite.destroy(effects.disintegrate, 200)
     scene.cameraShake(4, 500)
     otherSprite.destroy()
     info.changeScoreBy(1)
@@ -27,7 +30,7 @@ sprites.onOverlap(SpriteKind.Projectile, SpriteKind.Enemy, function (sprite, oth
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     scene.cameraShake(4, 500)
     info.changeLifeBy(-1)
-    otherSprite.destroy(effects.disintegrate, 500)
+    otherSprite.destroy(effects.disintegrate, 200)
 })
 let enemyship: Sprite = null
 let projectile: Sprite = null
@@ -54,7 +57,7 @@ mySprite = sprites.create(img`
 controller.moveSprite(mySprite, 100, 100)
 mySprite.setFlag(SpriteFlag.StayInScreen, true)
 info.setLife(4)
-game.onUpdateInterval(2000, function () {
+game.onUpdateInterval(500, function () {
     enemyship = sprites.create(img`
         ........................
         ........................
@@ -82,6 +85,6 @@ game.onUpdateInterval(2000, function () {
         ........................
         `, SpriteKind.Enemy)
     enemyship.x = scene.screenWidth()
-    enemyship.vx = -20
+    enemyship.vx = -90
     enemyship.y = randint(10, scene.screenHeight() - 10)
 })
